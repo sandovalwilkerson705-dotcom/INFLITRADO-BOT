@@ -1,77 +1,118 @@
-import fs from "fs"
-import path from "path"
-import ws from "ws"
+import { readdirSync, statSync, unlinkSync, existsSync, readFileSync, watch, rmSync, promises as fsPromises } from "fs";
+const fs = { ...fsPromises, existsSync };
+import path, { join } from 'path';
+import ws from 'ws';
 
-const handler = async (m, { conn, usedPrefix, participants }) => {
-  try {
-    const users = [
-      global.conn.user.jid, 
-      ...new Set(
-        global.conns
-          .filter((conn) => conn.user && conn.ws.socket && conn.ws.socket.readyState !== ws.CLOSED)
-          .map((conn) => conn.user.jid)
-      )
-    ]
+let handler = async (m, { conn: _envio, command, usedPrefix, args, text, isOwner }) => {
+  const isCommand1 = /^(deletesesion|deletebot|deletesession|deletesesaion)$/i.test(command);
+  const isCommand2 = /^(stop|pausarai|pausarbot)$/i.test(command);
+  const isCommand3 = /^(bots|sockets|socket)$/i.test(command);
 
-    function convertirMsADiasHorasMinutosSegundos(ms) {
-      const segundos = Math.floor(ms / 1000)
-      const minutos = Math.floor(segundos / 60)
-      const horas = Math.floor(minutos / 60)
-      const dias = Math.floor(horas / 24)
-      const segRest = segundos % 60
-      const minRest = minutos % 60
-      const horasRest = horas % 24
-      let resultado = ""
-      if (dias) resultado += `${dias} días, `
-      if (horasRest) resultado += `${horasRest} horas, `
-      if (minRest) resultado += `${minRest} minutos, `
-      if (segRest) resultado += `${segRest} segundos`
-      return resultado.trim()
-    }
+  async function reportError(e) {
+    await m.reply('⚠️ Ocurrió un error.');
+    console.log(e);
+  }
 
-    let groupBots = users.filter((bot) => participants.some((p) => p.id === bot))
-    if (participants.some((p) => p.id === global.conn.user.jid) && !groupBots.includes(global.conn.user.jid)) {
-      groupBots.push(global.conn.user.jid)
-    }
+  switch (true) {
+    case isCommand1:
+      let who = m.mentionedJid && m.mentionedJid[0] ? m.mentionedJid[0] : m.fromMe ? conn.user.jid : m.sender;
+      let uniqid = `${who.split('@')[0]}`;
+      const sessionPath = `./${jadi}/${uniqid}`;
 
-    let customSubs = 0
-    const botsGroup = groupBots.map((bot) => {
-      const isMainBot = bot === global.conn.user.jid
-      const v = global.conns.find((conn) => conn.user.jid === bot)
-      const uptime = isMainBot ? convertirMsADiasHorasMinutosSegundos(Date.now() - global.conn.uptime) : v?.uptime ? convertirMsADiasHorasMinutosSegundos(Date.now() - v.uptime) : "Activo desde ahora"
-      const mention = bot.replace(/[^0-9]/g, '')
-
-      const botPath = path.join('./Sessions/SubBot', mention)
-      const configPath = path.join(botPath, 'config.json')
-      let isCustom = false
-      if (fs.existsSync(configPath)) {
-        isCustom = true
-        if (!isMainBot) customSubs += 1
+      if (!fs.existsSync(sessionPath)) {
+        await conn.sendMessage(m.chat, {
+          text: `🚫 Usted no tiene una sesión activa.\n\nPuede crear una usando:\n${usedPrefix + command}\n\nSi tiene una ID, puede usar:\n${usedPrefix + command} (ID)`,
+          quoted: m
+        });
+        return;
       }
 
-      return `@${mention}\n> » Bot: ${isMainBot ? 'Principal' : 'Sub-Bot'}${isCustom && !isMainBot ? ' (Personalizado)' : ''}\n> » Online: ${uptime}`
-    }).join("\n\n")
+      if (global.conn.user.jid !== conn.user.jid) {
+        return conn.sendMessage(m.chat, {
+          text: `⚠️ Use este comando desde el *Bot Principal*.\n\nhttps://api.whatsapp.com/send/?phone=573136379995&text=${usedPrefix + command}&type=phone_number&app_absent=0`,
+          quoted: m
+        });
+      } else {
+        await conn.sendMessage(m.chat, { text: `✅ Tu sesión como *Sub-Bot* ha sido eliminada.`, quoted: m });
+      }
 
-    const message = `*✦ Lista de bots activos*
+      try {
+        fs.rmdirSync(sessionPath, { recursive: true, force: true });
+        await conn.sendMessage(m.chat, { text: `🧹 Sesión cerrada y rastro eliminado.`, quoted: m });
+      } catch (e) {
+        reportError(e);
+      }
+      break;
 
-✎ Principal: *1*
-⌗ Subs totales: *${users.length - 1}*
-⌗ Subs personalizados: *${customSubs}*
+    case isCommand2:
+      if (global.conn.user.jid === conn.user.jid) {
+        conn.reply(m.chat, `⚠️ Este comando solo funciona si eres *Sub-Bot*.\n\n📞 Comunícate con el número principal para activarte:\nhttps://wa.me/573136379995?text=${usedPrefix}code`, m);
+      } else {
+        await conn.reply(m.chat, `🛑 ${botname} desactivada.`, m);
+        conn.ws.close();
+      }
+      break;
 
-❐ En este grupo: *${groupBots.length}* bots
-${botsGroup}`
+    case isCommand3:
+      const users = [...new Set([...global.conns.filter((conn) => conn.user && conn.ws.socket && conn.ws.socket.readyState !== ws.CLOSED)])];
 
-    const mentionList = groupBots.map(bot => bot.endsWith("@s.whatsapp.net") ? bot : `${bot}@s.whatsapp.net`)
-    rcanal.contextInfo.mentionedJid = mentionList
-    await conn.sendMessage(m.chat, { text: message, ...rcanal }, { quoted: m })
+      function convertirMsADiasHorasMinutosSegundos(ms) {
+        let segundos = Math.floor(ms / 1000);
+        let minutos = Math.floor(segundos / 60);
+        let horas = Math.floor(minutos / 60);
+        let días = Math.floor(horas / 24);
+        segundos %= 60;
+        minutos %= 60;
+        horas %= 24;
+        let resultado = "";
+        if (días) resultado += `${días} días, `;
+        if (horas) resultado += `${horas} horas, `;
+        if (minutos) resultado += `${minutos} minutos, `;
+        if (segundos) resultado += `${segundos} segundos`;
+        return resultado;
+      }
 
-  } catch (error) {
-    m.reply(`⚠︎ Se ha producido un problema.\n> Usa *${usedPrefix}report* para informarlo.\n\n${error.message}`)
+      const message = users.map((v, index) => `
+┏━━━━━✦୨୧✦━━━━━┓
+┃ ✨ Sub-Bot #${index + 1} ✨
+┃ 📎 Link: wa.me/${v.user.jid.replace(/[^0-9]/g, '')}?text=${usedPrefix}estado
+┃ 👤 Usuario: ${v.user.name || 'Sub-Bot'}
+┃ 🕒 Conexión: ${v.uptime ? convertirMsADiasHorasMinutosSegundos(Date.now() - v.uptime) : 'Tiempo Desconocido 💀'}
+┗━━━━━✦୨୧✦━━━━━┛
+`).join('\n');
+
+      const replyMessage = message.length === 0
+        ? `🚫 Actualmente no hay Sub-Bots disponibles.\n⏳ Por favor, vuelva a intentarlo más tarde.`
+        : message;
+
+      const totalUsers = users.length;
+
+      const responseMessage = `
+╭❍👻 *SUBS ACTIVOS* 😈❍╮
+
+⚠️ \`\`\`
+Cada Sub-Bot utiliza sus funciones de manera independiente.
+El número principal no se hace responsable del mal uso.
+\`\`\`
+
+😈 *Total de Sub-Bots Conectados:* ${totalUsers || '0'}
+
+${replyMessage}
+
+╰❍👻 *grupo de shadow* 👻❍╯
+🔗 https://chat.whatsapp.com/KqkJwla1aq1LgaPiuFFtEY`.trim();
+
+      await _envio.sendMessage(m.chat, {
+        image: { url: 'https://kirito.my/media/images/51309221_k.jpg' },
+        caption: responseMessage,
+        mentions: _envio.parseMention(responseMessage)
+      }, { quoted: m });
+      break;
   }
-}
+};
 
-handler.tags = ["serbot"]
-handler.help = ["botlist"]
-handler.command = ["botlist", "listbots", "listbot", "bots", "sockets", "socket"]
+handler.tags = ['serbot'];
+handler.help = ['sockets', 'deletesesion', 'pausarai'];
+handler.command = ['deletesesion', 'deletebot', 'deletesession', 'stop', 'pausarai', 'pausarbot', 'bots', 'sockets', 'socket'];
 
-export default handler
+export default handler;
