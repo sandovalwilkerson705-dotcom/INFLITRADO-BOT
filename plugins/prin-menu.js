@@ -25,7 +25,7 @@ let handler = async (m, { conn, usedPrefix}) => {
     // Configuración inicial
     let botNameToShow = global.botname || "Shadow";
     let bannerUrl = global.michipg || "https://n.uguu.se/ZZHiiljb.jpg";
-    let videoUrl = "https://kirito.my/media/videos/74485501_k.mp4";
+    let videoUrl = "https://adonixfiles.mywire.org/files/xzadonix_26.mp4";
     const senderBotNumber = conn.user.jid.split('@')[0];
     const configPath = path.join('./Sessions/SubBot', senderBotNumber, 'config.json');
 
