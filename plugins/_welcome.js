@@ -6,10 +6,10 @@ const newsletterName = '👑 SHADOW-BOT-MD| ᴄʜᴀɴɴᴇʟ-ʙᴏᴛ 🌌';
 const packname = 'shadow-BOT-MD'
 
 const iconos = [
-  'https://kirito.my/media/images/17513408_k.jpg',
-  'https://kirito.my/media/images/49677622_k.jpg',
-  'https://kirito.my/media/images/49677622_k.jpg',
-  'https://kirito.my/media/images/71283551_k.jpg',
+  'https://raw.githubusercontent.com/UploadsAdonix/archivos/main/1763165065152-94d843.jpg'
+  'https://raw.githubusercontent.com/UploadsAdonix/archivos/main/1763165081580-660d44.jpg',
+  'https://raw.githubusercontent.com/UploadsAdonix/archivos/main/1763165160074-de0e81.jpg',
+  'https://raw.githubusercontent.com/UploadsAdonix/archivos/main/1763165128396-b5e568.jpg',
  ];
 
 const getRandomIcono = () => iconos[Math.floor(Math.random() * iconos.length)];
@@ -53,7 +53,7 @@ ${desc}
 
 async function generarDespedida({ conn, userId, groupMetadata, chat}) {
   const username = `@${userId.split('@')[0]}`;
-  const pp = await conn.profilePictureUrl(userId, 'image').catch(() => 'https://kirito.my/media/images/24391875_k.jpg');
+  const pp = await conn.profilePictureUrl(userId, 'image').catch(() => 'https://raw.githubusercontent.com/UploadsAdonix/archivos/main/1763165081580-660d44.jpg');
   const fecha = new Date().toLocaleDateString("es-ES", { timeZone: "America/Santo_Domingo", day: 'numeric', month: 'long', year: 'numeric'});
   const groupSize = groupMetadata.participants.length - 1;
 
@@ -111,7 +111,7 @@ handler.before = async function (m, { conn, participants, groupMetadata}) {if (!
 },
       externalAdReply: {
         title: packname,
-        body: '🕶️ 𝐒𝐡𝐚𝐝𝐨𝐰 𝐆𝐚𝐫𝐝𝐞𝐧 𝐭𝐞 𝐝𝐚 𝐥𝐚 𝐛𝐢𝐞𝐧𝐯𝐞𝐧𝐢𝐝𝐚...',
+        body: '🌌 𝐒𝐡𝐚𝐝𝐨𝐰 𝐆𝐚𝐫𝐝𝐞𝐧 𝐭𝐞 𝐝𝐚 𝐥𝐚 𝐛𝐢𝐞𝐧𝐯𝐞𝐧𝐢𝐝𝐚...',
         thumbnailUrl: getRandomIcono(),
         sourceUrl: global.redes,
         mediaType: 1,
