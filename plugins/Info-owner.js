@@ -1,68 +1,44 @@
-import fetch from 'node-fetch';
+const handler = async (m, { conn, command }) => {
+  try {
+    // Decoración navideña con estilo Shadow
+    let txt = 
+`┏━━━━━━━━━━━━━━━━━━━┓
+🎄 *Reino de las Sombras Navideñas* 🎄
+┗━━━━━━━━━━━━━━━━━━━┛
 
-let handler = async (m, { conn}) => {
-  await m.react('🌌');
+🌌 *Invocaste el poder oculto...*  
+✨ Aquí están los guardianes y creadores del bot:
 
-  let username = await conn.getName(m.sender);
+👑 *Dueño Principal (Shadow Master)*  
+📱 +58 424-2773183
 
-  // Lista de contactos estilo Shadow Garden
-  let list = [
-    {
-      displayName: " Shadow Creator ",
-      vcard: `BEGIN:VCARD\nVERSION:3.0\nFN:Shadow Master\nTEL;type=CELL;waid=50493732693:+504 9373-2693\nTEL;type=CELL;waid=584242773183:+58 424-2773183\nTEL;type=CELL;waid=523328418129:+52 33 2841 8129\nEND:VCARD`
-}
-  ];
+🕯️ *Colaborador de las Sombras*  
+📱 +504 9373-2693
 
-  const canalInfo = {
-    title: '⚔️ Canal Oficial de SHADOW ⚔️',
-    body: 'Sumérgete en las sombras. Únete al canal oficial.',
-    thumbnailUrl: 'https://qu.ax/QXPmz.jpg',
-    sourceUrl: 'https://whatsapp.com/channel/0029VbArz9fAO7RGy2915k3O',
-    mediaType: 1,
-    renderLargerThumbnail: true
+━━━━━━━━━━━━━━━━━━━━━━
+🎅 *Ellos son los arquitectos del Reino* 🎅
+❄️ Gracias a su guía, las sombras siguen vivas.
+━━━━━━━━━━━━━━━━━━━━━━
+
+🎄✨ *Creado por Yosue uwu* ✨🎄`;
+
+    await conn.reply(m.chat, txt, m, {
+      contextInfo: {
+        externalAdReply: {
+          title: '🎄 Shadow Bot - Creadores 🎅',
+          body: 'Los números de los maestros de las sombras',
+          thumbnailUrl: global.michipg || 'https://n.uguu.se/ZZHiiljb.jpg',
+          mediaType: 1,
+          renderLargerThumbnail: false,
+          sourceUrl: 'https://whatsapp.com/channel/0029VbArz9fAO7RGy2915k3O'
+        }
+      }
+    });
+  } catch (e) {
+    console.error(e);
+    conn.reply(m.chat, "👻 Error al invocar a los creadores...", m);
+  }
 };
 
-  // Enviar contacto con preview
-  await conn.sendMessage(m.chat, {
-    contacts: {
-      displayName: `${list.length} Contacto`,
-      contacts: list
-},
-    contextInfo: {
-      externalAdReply: canalInfo
-}
-}, { quoted: m});
-
-  // Mensaje decorado estilo The Eminence in Shadow
-  let txt = ` 𝙄𝙉𝙁𝙊 𝘿𝙀 𝙇𝘼 𝘾𝙍𝙀𝘼𝘿𝙊𝙍
-
-> ⚔️ 𝗦𝗛𝗔𝗗𝗢𝗪 𝗠𝗔𝗦𝗧𝗘𝗥 ⚔️
-> 😉 El estratega oculto tras las líneas del código
-
-📡 𝗖𝗔𝗡𝗔𝗟 𝗢𝗙𝗜𝗖𝗜𝗔𝗟:
-https://whatsapp.com/channel/0029VbArz9fAO7RGy2915k3O
-
-📱 𝗖𝗢𝗡𝗧𝗔𝗖𝗧𝗢𝗦 𝗗𝗘 𝗟𝗔 𝗢𝗥𝗚𝗔𝗡𝗜𝗭𝗔𝗖𝗜𝗢́𝗡:
-+504 9373-2693
-+58 424-2773183
-+52 33 2841 8129
-
-🧬 𝗖𝗢𝗗𝗘 𝗗𝗘 𝗔𝗖𝗖𝗘𝗦𝗢:
-https://wa.me/584242773183?text=.code
-
- *SHADOW-BOT-MD* — El poder no se muestra... se oculta.`;
-
-  // Enviar mensaje decorado con preview al final
-  await conn.sendMessage(m.chat, {
-    text: txt,
-    contextInfo: {
-      externalAdReply: canalInfo
-}
-}, { quoted: m});
-};
-
-handler.help = ['owner', 'creador'];
-handler.tags = ['info'];
-handler.command = /^(owner|creator|creador|dueño)$/i;
-
+handler.command = ['owner', 'creador'];
 export default handler;
