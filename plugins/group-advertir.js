@@ -35,7 +35,7 @@ const handler = async (m, { conn, text, command, usedPrefix }) => {
   // Verificación de registro
   const isRegistered = global.db.data.users[who]?.registered;
   if (!isRegistered) {
-    const img = 'https://raw.githubusercontent.com/El-brayan502/dat4/main/uploads/3e1dfb-1763309355015.jpg';
+    const img = 'https://files.catbox.moe/88n20k.jpg';
     const res = await axios.get(img, { responseType: 'arraybuffer' });
     const imgBuffer = Buffer.from(res.data);
 
@@ -84,7 +84,7 @@ const handler = async (m, { conn, text, command, usedPrefix }) => {
   await conn.sendMessage(m.chat, { react: { text: '🌑', key: m.key } });
 
   // Imagen y mensaje tipo catálogo de advertencia
-  const img = 'https://raw.githubusercontent.com/El-brayan502/dat4/main/uploads/3e1dfb-1763309355015.jpg';
+  const img = 'https://files.catbox.moe/88n20k.jpg';
   const res = await axios.get(img, { responseType: 'arraybuffer' });
   const imgBuffer = Buffer.from(res.data);
 
