@@ -1,5 +1,5 @@
-const keywords = ['bot', 'Bot', 'shadow', 'Shadow'];
-const creatorNumber = '584242773183';
+const keywords = ['bot', 'Bot', 'wilker', 'wilker'];
+const creatorNumber = '5492644893953';
 
 // Objeto para guardar últimos usos de keywords
 let lastKeywordUse = {};
@@ -29,7 +29,7 @@ export async function before(m, { conn }) {
 
     // 📜 Si escriben "reglas"
     if (/^reglas$/i.test(m.text)) {
-        const reglas = `🌐 *REGLAS DEL BOT SHADOW* 🌐
+        const reglas = `🌐 *REGLAS DEL BOT TECH BOT V1* 🌐
 
 1️⃣ No hacer spam de comandos
 2️⃣ No enviar enlaces sin permiso
@@ -77,7 +77,7 @@ export async function before(m, { conn }) {
             lastKeywordUse[m.chat] = now; // actualizar último uso
             return conn.reply(
                 m.chat,
-                `👋 *Hola soy Shadow.*\nUsa *.menu* para ver mi lista de comandos.`,
+                `👋 *Hola soy tech bot v1.*\nUsa *.menu* para ver mi lista de comandos.`,
                 m
             );
         }
