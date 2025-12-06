@@ -79,10 +79,6 @@ let handler = async (m, { conn, usedPrefix }) => {
 const defaultMenu = {
   before: `
 👋 Hola, soy %botname.
-
-🤖 TIPO:
-> %tipo
-
 > 👋 *Hola %name! %greeting…
       `🎅 Soy *Tech bot v1*, bot en desarrollo ${(conn.user.jid == global.conn.user.jid ? '(Principal 🅥)' : '(Sub-Bot 🅑)')}\n` +
       `🕒 *Hora:* ${timeStr}\n` +
