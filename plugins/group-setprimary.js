@@ -1,57 +1,30 @@
-import ws from 'ws'
+let handler = async (m, { text }) => {
+  // Obtenemos el número ya sea por mención o texto
+  let number = (m.mentionedJid && m.mentionedJid[0]?.replace('@s.whatsapp.net', '')) 
+             || (text ? text.replace(/[^0-9]/g, '') : '')
 
-const handler = async (m, { conn, usedPrefix }) => {
-  const subBots = [
-    ...new Set(
-      [
-        ...global.conns
-          .filter((conn) => conn.user && conn.ws.socket && conn.ws.socket.readyState !== ws.CLOSED)
-          .map((conn) => conn.user.jid),
-      ]
-    ),
-  ]
-
-  if (global.conn?.user?.jid && !subBots.includes(global.conn.user.jid)) {
-    subBots.push(global.conn.user.jid)
+  if (!number) {
+    return m.reply('⚠️ Debes etiquetar al bot o escribir el número para hacerlo principal en este grupo.\n\nEjemplo:\n- !setprimary @bot\n- !setprimary 5491122334455')
   }
 
-  const chat = global.db.data.chats[m.chat]
-  const mentionedJid = await m.mentionedJid
-  const who = mentionedJid[0] ? mentionedJid[0] : m.quoted ? await m.quoted.sender : false
-  if (!who) return conn.reply(m.chat, `❀ Por favor, menciona a un Socket para hacerlo Bot principal del grupo.`, m)
-  if (!subBots.includes(who)) return conn.reply(m.chat, `ꕥ El usuario mencionado no es un Socket de: *${botname}*.`, m)
-  if (chat.primaryBot === who) {
-    return conn.reply(
-      m.chat,
-      `⌗ @${who.split`@`[0]} ya está como Bot primario en este grupo.`,
-      m,
-      { mentions: [who] }
-    )
-  }
+  let botJid = number + '@s.whatsapp.net'
 
-  try {
-    chat.primaryBot = who
-    global.db.data.chats[m.chat] = chat
-    await global.db.write()
-    conn.reply(
-      m.chat,
-      `✏ Se ha establecido a @${who.split`@`[0]} como Bot primario de este grupo.\n> Ahora todos los comandos de este grupo serán ejecutados por @${who.split`@`[0]}.`,
-      m,
-      { mentions: [who] }
-    )
-  } catch (e) {
-    conn.reply(
-      m.chat,
-      `⚠︎ Se ha producido un problema.\n> Usa *${usedPrefix}report* para informarlo.\n\n${e.message}`,
-      m
-    )
-  }
+  // Aseguramos la estructura en DB
+  if (!global.db.data.chats[m.chat]) global.db.data.chats[m.chat] = {}
+
+  // Guardamos en DB
+  global.db.data.chats[m.chat].primaryBot = botJid
+
+  // Forzamos escritura en el JSON de db
+  if (global.db.write) await global.db.write()
+
+  m.reply(`✅ El bot principal para este grupo ahora es:\n*${botJid}*`)
 }
 
-handler.help = ['setprimary']
-handler.tags = ['grupo']
+handler.help = ['setprimary @bot / número']
+handler.tags = ['serbot']
 handler.command = ['setprimary']
-handler.group = true
 handler.admin = true
+handler.group = true
 
 export default handler
