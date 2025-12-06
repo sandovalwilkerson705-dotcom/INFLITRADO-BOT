@@ -1,4 +1,4 @@
-<img src="https://readme-typing-svg.herokuapp.com/?font=mono&size=30&duration=4000&color=0000FF&center=falso&vCenter=falso&lines=🜛+TECH-BOT+🜛;۞+TECH+BOT+TEAM+۞;@WILKER-OFC✞">
+<img src="https://readme-typing-svg.herokuapp.com/?font=mono&size=30&duration=4000&color=0000FF&center=falso&vCenter=falso&lines=🜛+TECH-BOT-V1+🜛;۞+TECH+BOT+TEAM+۞;@WILKER-OFC✞">
 
 > Creador del bot
 
