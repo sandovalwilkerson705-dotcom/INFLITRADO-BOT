@@ -1,35 +1,25 @@
-import ws from 'ws'
+let handler = async (m, { conn }) => {
+  // Aseguramos la estructura en DB
+  if (!global.db.data.chats[m.chat]) global.db.data.chats[m.chat] = {}
 
-const handler = async (m, { conn, usedPrefix }) => {
-  const chat = global.db.data.chats[m.chat]
-
-  if (!chat.primaryBot) {
-    return conn.reply(m.chat, `⚠︎ No hay ningún Bot primario en este grupo.`, m)
+  // Si no había nada guardado
+  if (!global.db.data.chats[m.chat].primaryBot) {
+    return m.reply('⚠️ No hay ningún bot principal configurado en este grupo.')
   }
 
-  try {
-    const oldPrimary = chat.primaryBot
-    chat.primaryBot = null
+  // Eliminamos el bot principal
+  delete global.db.data.chats[m.chat].primaryBot
 
-    conn.reply(
-      m.chat, 
-      `✧ Se ha eliminado el Bot primario @${oldPrimary.split`@`[0]}.\n> Ahora todos los bots vuelven a responder en este grupo.`, 
-      m, 
-      { mentions: [oldPrimary] }
-    )
-  } catch (e) {
-    conn.reply(
-      m.chat, 
-      `⚠︎ Ocurrió un problema al intentar eliminar el Bot primario.\n> Usa *${usedPrefix}report* para informarlo.\n\n${e.message}`, 
-      m
-    )
-  }
+  // Forzamos escritura en el JSON
+  if (global.db.write) await global.db.write()
+
+  m.reply('❌ Se eliminó el bot principal de este grupo.')
 }
 
 handler.help = ['delprimary']
-handler.tags = ['grupo']
+handler.tags = ['serbot']
 handler.command = ['delprimary']
+handler.admin = true
 handler.group = true
-handler.admin = true  
 
 export default handler
