@@ -83,12 +83,7 @@ const defaultMenu = {
 🤖 TIPO:
 > %tipo
 
-> 👋 *Hola %name! %greeting…*
-
-📅 Fecha: %date
-⏳ Tiempo activo: %uptime
-%readmore`.trimStart(),
-    let txt = intro +
+> 👋 *Hola %name! %greeting…
       `🎅 Soy *Tech bot v1*, bot en desarrollo ${(conn.user.jid == global.conn.user.jid ? '(Principal 🅥)' : '(Sub-Bot 🅑)')}\n` +
       `🕒 *Hora:* ${timeStr}\n` +
       `📅 *Fecha:* ${dateStr}\n` +
