@@ -13,8 +13,8 @@ let handler = async (m, { conn, usedPrefix }) => {
         {
           text:
             `┏━━━━━━━━━━━━━━━━━━┓\n👾 *ACCESO DENEGADO* 🎄\n┗━━━━━━━━━━━━━━━━━━┛\n\n` +
-            `🎅 Lo siento, regístrate para usar el menu...\n` +
-            `✨ Para acceder al menú  debes estar registrado.\n\n` +
+            `🎅 Lo siento, regístrate para usar el menú...\n` +
+            `✨ Para acceder al menú debes estar registrado.\n\n` +
             `🔐 Usa *${usedPrefix}reg wilker.15* para usar comandos.\n` +
             `🎁 ¡Los nuevos comandos te esperan!`,
           buttons: [
@@ -26,15 +26,11 @@ let handler = async (m, { conn, usedPrefix }) => {
           ],
           headerType: 6,
         },
-        {
-          quoted: {
-            key: { fromMe: false, participant: "0@s.whatsapp.net" },
-            message: { conversation: "Mensaje reenviado" },
-          },
-        }
+        { quoted: m }
       );
     }
 
+    // Construcción del menú
     let menu = {};
     for (let plugin of Object.values(global.plugins)) {
       if (!plugin || !plugin.help) continue;
@@ -52,8 +48,7 @@ let handler = async (m, { conn, usedPrefix }) => {
     let uptimeStr = `${hours}h ${minutes}m ${seconds}s`;
 
     let botNameToShow = global.botname || "tech bot v1";
-    let bannerUrl = global.michipg || "https://files.catbox.moe/ojxw8v.jpg";
-    let videoUrl = "https://files.catbox.moe/ojxw8v.jpg";
+    let imageUrl = "https://files.catbox.moe/ojxw8v.jpg"; 
     const senderBotNumber = conn.user.jid.split('@')[0];
     const configPath = path.join('./Sessions/SubBot', senderBotNumber, 'config.json');
 
@@ -61,8 +56,7 @@ let handler = async (m, { conn, usedPrefix }) => {
       try {
         const subBotConfig = JSON.parse(fs.readFileSync(configPath, 'utf-8'));
         if (subBotConfig.name) botNameToShow = subBotConfig.name;
-        if (subBotConfig.banner) bannerUrl = subBotConfig.banner;
-        if (subBotConfig.video) videoUrl = subBotConfig.video;
+        if (subBotConfig.banner) imageUrl = subBotConfig.banner;
       } catch (e) {}
     }
 
@@ -108,13 +102,11 @@ let handler = async (m, { conn, usedPrefix }) => {
 
     await conn.sendMessage(m.chat, { react: { text: '🎅', key: m.key } });
 
-    let mediaMessage = null;
-    try {
-      mediaMessage = await prepareWAMessageMedia(
-        { video: { url: videoUrl }, gifPlayback: true },
-        { upload: conn.waUploadToServer }
-      );
-    } catch (e) {}
+    // Preparar la imagen
+    let mediaMessage = await prepareWAMessageMedia(
+      { image: { url: imageUrl } },
+      { upload: conn.waUploadToServer }
+    );
 
     const msg = generateWAMessageFromContent(m.chat, {
       viewOnceMessage: {
@@ -124,7 +116,7 @@ let handler = async (m, { conn, usedPrefix }) => {
             footer: { text: "🎄 Menú Navideño 🎄" },
             header: {
               hasMediaAttachment: !!mediaMessage,
-              videoMessage: mediaMessage ? mediaMessage.videoMessage : null
+              imageMessage: mediaMessage ? mediaMessage.imageMessage : null
             },
             nativeFlowMessage: {
               buttons: [
@@ -151,7 +143,7 @@ let handler = async (m, { conn, usedPrefix }) => {
     await conn.relayMessage(m.chat, msg.message, {});
 
   } catch (e) {
-    conn.reply(m.chat, "👻 hay error en el menu...", m);
+    conn.reply(m.chat, "👻 hay error en el menú...", m);
   }
 };
 
