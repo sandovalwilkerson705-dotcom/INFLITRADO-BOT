@@ -1,7 +1,7 @@
 /**
  * ⋆｡˚☁︎｡⋆｡˚☽˚｡⋆ ✦ 𝑷𝒂𝒄𝒕𝒐 𝑫𝒊𝒔𝒐𝒍𝒗𝒊𝒅𝒐 ✦⋆｡˚☁︎｡⋆｡˚☽˚｡⋆
  *
- * 𝐓𝐡𝐞 𝐄𝐦𝐢𝐧𝐞𝐧𝐜𝐞 𝐢𝐧 𝐒𝐡𝐚𝐝𝐨𝐰: 𝑬𝒍 𝑹𝒆𝒕𝒊𝒓𝒐 𝒅𝒆 𝒍𝒂 𝑶𝒔𝒄𝒖𝒓𝒊𝒅𝒂𝒅
+ * hola viajero eres nuevo en el RPG?
  *
  * "Cuando el vínculo se rompe, el alma regresa al vacío..."
  */
@@ -36,7 +36,7 @@ let handler = async function (m, { conn, usedPrefix, command}) {
 ├─ "Tu vínculo con el Reino Shadow ha sido roto..."
 │ 🕳️ El poder oculto ya no te pertenece.
 │
-╰─「 𝑬𝒎𝒊𝒏𝒆𝒏𝒄𝒆 𝒊𝒏 𝑺𝒉𝒂𝒅𝒐𝒘 」─╯
+╰─「 update tech bot 」─╯
 `.trim()
 
   await conn.sendMessage(m.chat, { text: mensajeDespedida}, { quoted: m})
