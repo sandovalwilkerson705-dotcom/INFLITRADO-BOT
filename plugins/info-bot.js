@@ -1,8 +1,8 @@
 import fs from 'fs';
 
-// 🌌🎄 Inicio versión Shadow Garden con toque navideño
+// 🌌🎄 Inicio versión tech bot toque navideño 
 const handler = (m) => {
-  // ✨ Las sombras vigilan incluso en navidad...
+  // ✨ tech bot te vigila pdj jajaja...
   return m;
 };
 
@@ -15,7 +15,7 @@ handler.all = async function(m) {
 
     // Mapeo de palabras clave y respuestas
     const respuestas = {
-        "bot": `🌌🎄 ¡Has invocado al Shadow-Bot en esta fría navidad!\n\n👑 Soy Asta, guardián de las sombras.\n✰ Usa *!menu* para descubrir los rituales ocultos.`,
+        "bot": `🌌🎄 ¡Has invocado al tech bot en esta fría navidad!\n\n👑 Soy Asta, guardián de las sombras.\n✰ Usa *!menu* para descubrir los rituales ocultos.`,
         "sexo": "❄️ Las sombras susurran... *pervertido* 🫣",
         "teta": "🔥 La nieve se derrite... *qué caliente eres* 🥵",
         "tetas": "🔥 La nieve se derrite... *qué caliente eres* 🥵",
