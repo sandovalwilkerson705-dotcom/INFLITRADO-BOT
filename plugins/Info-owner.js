@@ -1,44 +1,30 @@
-const handler = async (m, { conn, command }) => {
-  try {
-    // Decoración navideña con estilo Shadow
-    let txt = 
-`┏━━━━━━━━━━━━━━━━━━━┓
-🎄 *Reino de las Sombras Navideñas* 🎄
-┗━━━━━━━━━━━━━━━━━━━┛
+var handler = async (m, { conn }) => {
 
-🌌 *Invocaste el poder oculto...*  
-✨ Aquí están los guardianes y creadores del bot:
+  if (m.text === '.creador') {
+    const contacto = `
+🤖 *¿QUIERES CONTACTAR A MI CREADOR?* 🤖
 
-👑 *Dueño Principal (Shadow Master)*  
-📱 +58 424-2773183
+👤 *nombre*  *WILKER OFC*
+📞 *Numero:* +5492644893953
+🔔 *Lenguajes* Node.js Python.py
 
-🕯️ *Colaborador de las Sombras*  
-📱 +504 9373-2693
+💫 *NOTA IMPORTANTE:*
 
-━━━━━━━━━━━━━━━━━━━━━━
-🎅 *Ellos son los arquitectos del Reino* 🎅
-❄️ Gracias a su guía, las sombras siguen vivas.
-━━━━━━━━━━━━━━━━━━━━━━
+¿Tienes preguntas, dudas o sugerencias sobre el funcionamiento de *tech bot*? Puedes contactar a mis creadores.
 
-🎄✨ *Creado por Yosue uwu* ✨🎄`;
+*Una cosa:* Los bots no descansan, pero yo sí, así que no me andes mandando mensaje a las 3am porque no te voy a contestar… 😴
 
-    await conn.reply(m.chat, txt, m, {
-      contextInfo: {
-        externalAdReply: {
-          title: '🎄 Shadow Bot - Creadores 🎅',
-          body: 'Los números de los maestros de las sombras',
-          thumbnailUrl: global.michipg || 'https://n.uguu.se/ZZHiiljb.jpg',
-          mediaType: 1,
-          renderLargerThumbnail: false,
-          sourceUrl: 'https://whatsapp.com/channel/0029VbArz9fAO7RGy2915k3O'
-        }
-      }
-    });
-  } catch (e) {
-    console.error(e);
-    conn.reply(m.chat, "👻 Error al invocar a los creadores...", m);
+_¡Gracias por tu comprensión!_ 💖
+    `.trim()
+
+    await conn.reply(m.chat, contacto, m)
+    m.react('📞')
+    return
   }
-};
+}
 
-handler.command = ['owner', 'creador'];
-export default handler;
+handler.help = ['creador']
+handler.tags = ['main']
+handler.command = ['creador', 'owner', 'creador', 'developer', 'desarrollador']
+
+export default handler
