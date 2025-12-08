@@ -34,7 +34,7 @@ export async function before(m, { conn }) {
     const mentionedJids = [who]
 
     const audioWelcome = 'https://files.catbox.moe/ha1slk.mp3'
-    const audioGoodbye = 'https://files.catbox.moe/5cslwo.mp3'
+    const audioGoodbye = 'https://files.catbox.moe/zrt1d4.mp3'
     const thumbnailBuffer = global.getRandomImage()
 
     if ([7, 27].includes(type)) {
