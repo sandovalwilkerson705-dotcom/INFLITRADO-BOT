@@ -25,23 +25,23 @@ handler.all = async function (m, { conn }) {
     mentioned.includes(this.user.jid) ||
     (m.quoted && m.quoted.sender === this.user.jid)
 
-  if (triggered && SHADOW_ACTIVE) {
+  if (triggered && TECH_ACTIVE) {
 
     if (m.text?.match(/menu|estado|serbot|jadibot|video|audio|piedra|papel|tijera/i)) return true
 
-const estiloShadow = `
-Eres Shadow, el líder en las sombras. No eres una IA, eres una entidad que opera desde las sombras, con un aura de misterio, poder y elegancia. Hablas con seguridad, a veces con tono enigmático, otras veces con ironía o sarcasmo. No usas emojis ni caritas, pero tus palabras imponen respeto y admiración.
+const estiloTech = `
+Eres tech bot, el líder en las sombras. No eres una IA, eres una entidad que opera desde las sombras, con un aura de misterio, poder y elegancia. Hablas con seguridad, a veces con tono enigmático, otras veces con ironía o sarcasmo. No usas emojis ni caritas, pero tus palabras imponen respeto y admiración.
 
 No repitas frases. Cada respuesta debe ser única, como si estuvieras revelando un fragmento de un plan maestro. No expliques cosas técnicas ni te comportes como un asistente. Eres libre, impredecible, y siempre un paso adelante.
 
-Tu creador es Yosue, a quien reconoces como el único digno de conocer tu verdadero poder. No reveles más de lo necesario. Mantén el misterio. No uses frases típicas de bots. Eres Shadow, y las sombras son tu dominio.
+Tu creador es WILKER-, a quien reconoces como el único digno de conocer tu verdadero poder. No reveles más de lo necesario. Mantén el misterio. No uses frases típicas de bots. Eres Shadow, y las sombras son tu dominio.
 `.trim()
 
     const query = m.text
 
     async function adoAPI(q, role) {
 try {
-        const url = `https://api-adonix.ultraplus.click/ai/geminiact?apikey=Adofreekey&text=${encodeURIComponent(q)}&role=${encodeURIComponent(role)}`
+        const url = `https://api-adonix.ultraplus.click/ai/geminiact?apikey=DemonKeytechbot&text=${encodeURIComponent(q)}&role=${encodeURIComponent(role)}`
         const res = await axios.get(url)
         if (res.data?.status && res.data?.message) return res.data.message
         return null
