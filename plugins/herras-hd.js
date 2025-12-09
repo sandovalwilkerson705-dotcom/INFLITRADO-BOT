@@ -1,4 +1,4 @@
-mport fetch from 'node-fetch'
+import fetch from 'node-fetch'
 import FormData from 'form-data'
 
 async function uploadImage(buffer) {
