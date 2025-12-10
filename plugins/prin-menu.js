@@ -86,8 +86,8 @@ let handler = async (m, { conn, usedPrefix }) => {
     let emojiIndex = 0;
 
     for (let tag in menu) {
-      txt += `\n━━━━━━━━━━━━━━━━━\n 🤖
- ${tag.toUpperCase()} 🎅\n━━━━━━━━━━━━━━━━━━━━━\n`;
+┃      txt += `\n╭━━━━➤\n 🤖
+┃ ${tag.toUpperCase()} 🎅\n━━━━━━━━━━━━━━━━━━━━\n`;
       for (let plugin of menu[tag]) {
         for (let cmd of plugin.help) {
           let emoji = emojis[emojiIndex % emojis.length];
