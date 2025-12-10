@@ -17,7 +17,6 @@ let handler = async (m, { conn, usedPrefix }) => {
             `✨ Para acceder al menú debes estar registrado.\n\n` +
             `🔐 Usa *${usedPrefix}reg wilker.15* para usar comandos.\n` +
             `🎁 ¡Los nuevos comandos te esperan!`,
-│ 👤 Nombre: ${userName}
           buttons: [
             {
               buttonId: `${usedPrefix}reg wilker.18`,
@@ -77,6 +76,10 @@ let handler = async (m, { conn, usedPrefix }) => {
 *Bienvenid@ al menú del bot*❄️
 ┗━━━━━━━━━━━━━━━━━━━┛\n`;
     let txt = intro +
+
+    const header = `
+${saludo} ${tagUsuario} 👋
+
       `🎅 Soy *Tech bot v1*, bot en desarrollo ${(conn.user.jid == global.conn.user.jid ? '(Principal 🅥)' : '(Sub-Bot 🅑)')}\n` +
       `🕒 *Hora:* ${timeStr}\n` +
       `📅 *Fecha:* ${dateStr}\n` +
