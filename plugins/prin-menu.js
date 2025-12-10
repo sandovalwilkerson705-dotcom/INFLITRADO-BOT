@@ -72,8 +72,7 @@ let handler = async (m, { conn, usedPrefix }) => {
 
     let intro = 
 `┏━━━━━━━━━━━━━━━━━━━┓
-🎄 *${saludo}* 
-*Bienvenid@ al menú del bot*❄️
+    ❄️*TECH BOT V1*❄️
 ┗━━━━━━━━━━━━━━━━━━━┛\n`;
     let txt = intro +
 
