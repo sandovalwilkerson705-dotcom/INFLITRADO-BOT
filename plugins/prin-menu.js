@@ -17,6 +17,7 @@ let handler = async (m, { conn, usedPrefix }) => {
             `✨ Para acceder al menú debes estar registrado.\n\n` +
             `🔐 Usa *${usedPrefix}reg wilker.15* para usar comandos.\n` +
             `🎁 ¡Los nuevos comandos te esperan!`,
+│ 👤 Nombre: ${userName}
           buttons: [
             {
               buttonId: `${usedPrefix}reg wilker.18`,
