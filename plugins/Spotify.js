@@ -7,7 +7,7 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
     if (!args[0]) return conn.reply(m.chat, `[💜] Ingresa el enlace de Spotify\n\nEjemplo: ${usedPrefix + command} https://open.spotify.com/track/...`, m, rcanal);
 
     try {
-        const apiUrl = `https://dark-core-api.vercel.app/api/download/spotify?key=Darkito&url=${encodeURIComponent(args[0])}`;
+        const apiUrl = `https://api-adonix.ultraplus.click/download/spotify?apikey=DemonKeytechbot&url=${encodeURIComponent(args[0])}`;
         const response = await fetch(apiUrl);
 
         if (!response.ok) throw new Error("Error en la API");
