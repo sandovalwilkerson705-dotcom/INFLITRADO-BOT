@@ -6,12 +6,12 @@ let handler = async (m, { conn, command }) => {
 
   if (action === 'close') {
     await conn.groupSettingUpdate(chatId, 'announcement')
-    await conn.reply(chatId, '🎄🌌 *El Shadow Garden ha sellado el grupo...*\n❄️ Solo los administradores pueden hablar ahora.', m)
+    await conn.reply(chatId, '👻🤍 *El bot a cerrado el grupo...*\n🖤 Solo los administradores pueden hablar ahora.', m)
   }
 
   if (action === 'open') {
     await conn.groupSettingUpdate(chatId, 'not_announcement')
-    await conn.reply(chatId, '🎅✨ *El Shadow Garden ha liberado el grupo...*\n🌌 Todos los miembros pueden hablar bajo la nieve.', m)
+    await conn.reply(chatId, '👻🤍 *El Bot a abierto el grupo...*\n🖤 Todos los miembros pueden hablar ahora.', m)
   }
 }
 
