@@ -76,15 +76,15 @@ const bratvid = async (m, { conn, text }) => {
 
   await m.react('🕒')
   try {
-    const apiUrl = `https://mayapi.ooguy.com/bratvideo?text=${encodeURIComponent(text)}&apikey=may-62caaf2f`
+    const apiUrl = `https://api-adonix.ultraplus.click/canvas/bratvid?text=${encodeURIComponent(text)}&apikey=DemonKeytechbot`
     const res = await fetch(apiUrl)
     const json = await res.json()
 
     if (!json.status || !json.result) throw new Error('Error en la API')
 
     const videoUrl = json.result
-    const packname = global.packname || 'MaycolPlus • Bot kwai :3'
-    const author = global.author || 'SoyMaycol • 51921826291'
+    const packname = global.packname || 'Shadow-BOT-MD'
+    const author = global.author || 'Yosue uwu'
 
     const stiker = await sticker(false, videoUrl, packname, author)
 
@@ -101,8 +101,8 @@ const bratvid = async (m, { conn, text }) => {
   }
 }
 
-bratvid.help = ['bratvid <texto>']
+bratvid.help = ['bratv <texto>']
 bratvid.tags = ['sticker']
-bratvid.command = ['bratvid']
+bratvid.command = ['bratv']
 
 export default bratvid
